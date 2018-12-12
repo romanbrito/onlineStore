@@ -1,0 +1,28 @@
+{
+  "name": "rockingthebump",
+  "version": "1.0.0",
+  "description": "Online store for all maternity needs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next -p 7777",
+    "build": "next build",
+    "start": "next start",
+    "test": "NODE_ENV=test jest --watch",
+    "test-win": "SET NODE_ENV=test&& jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romanbrito/rockingthebump.git"
+  },
+  "author": "Roman Brito",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/romanbrito/rockingthebump/issues"
+  },
+  "homepage": "https://github.com/romanbrito/rockingthebump#readme",
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
+}
