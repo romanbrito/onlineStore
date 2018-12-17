@@ -33,14 +33,15 @@ const ItemsList = styled.div`
 
 class Items extends Component {
   render() {
+    const {page} = this.props;
     return (
       <Center>
-        <Pagination page={this.props.page}/>
+        <Pagination page={page}/>
         <Query
           query={ALL_ITEMS_QUERY}
-          // fetchPolicy="network-only"
+          // fetchPolicy='network-only'
           variables={{
-          skip: this.props.page * perPage - perPage,
+          skip: (page - 1) * perPage,
           first: perPage
         }}>
           {({data, error, loading}) => {
