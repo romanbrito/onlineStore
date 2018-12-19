@@ -1,35 +1,24 @@
-import React, {Component} from 'react';
-import {Mutation, Query} from 'react-apollo';
+import React, { Component } from 'react';
+import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import Form from './styles/Form';
 import formatMoney from '../lib/formatMoney';
-import ErrorMessage from './ErrorMessage';
+import Error from './ErrorMessage';
 
 const SINGLE_ITEM_QUERY = gql`
     query SINGLE_ITEM_QUERY($id: ID!) {
-        Item (id: $id) {
+        item(where: { id: $id }) {
             id
             title
-            price
             description
+            price
         }
     }
 `;
-
 const UPDATE_ITEM_MUTATION = gql`
-    mutation UPDATE_ITEM_MUTATION(
-    $id: ID!
-    $title: String
-    $description: String
-    $price: Int
-    ) {
-        updateItem(
-            id: $id
-            title: $title
-            description: $description
-            price: $price
-        ) {
+    mutation UPDATE_ITEM_MUTATION($id: ID!, $title: String, $description: String, $price: Int) {
+        updateItem(id: $id, title: $title, description: $description, price: $price) {
             id
             title
             description
@@ -40,17 +29,14 @@ const UPDATE_ITEM_MUTATION = gql`
 
 class UpdateItem extends Component {
   state = {};
-
-  // function for input change
-  handleChange = event => {
-    const {name, type, value} = event.target;
+  handleChange = e => {
+    const { name, type, value } = e.target;
     const val = type === 'number' ? parseFloat(value) : value;
-    this.setState({[name]: val})
+    this.setState({ [name]: val });
   };
-
-  updateItem = async (event, updateItemMutation) => {
-    event.preventDefault();
-    console.log('Updating Item');
+  updateItem = async (e, updateItemMutation) => {
+    e.preventDefault();
+    console.log('Updating Item!!');
     console.log(this.state);
     const res = await updateItemMutation({
       variables: {
@@ -58,23 +44,25 @@ class UpdateItem extends Component {
         ...this.state,
       },
     });
-    console.log('Updated');
+    console.log('Updated!!');
   };
 
   render() {
     return (
-      <Query query={SINGLE_ITEM_QUERY} variables={{id: this.props.id}}>
-        {({data, loading}) => {
+      <Query
+        query={SINGLE_ITEM_QUERY}
+        variables={{
+          id: this.props.id,
+        }}
+      >
+        {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
-          if (!data.Item) return <p>No Item Found for id {this.props.id}</p>;
+          if (!data.item) return <p>No Item Found for ID {this.props.id}</p>;
           return (
             <Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
-              {/*(mutationfunction, payload) => {}*/}
-              {(updateItem, {loading, error, called}) => (
-                <Form
-                  onSubmit={event => this.updateItem(event, updateItem)}
-                >
-                  <ErrorMessage error={error}/>
+              {(updateItem, { loading, error }) => (
+                <Form onSubmit={e => this.updateItem(e, updateItem)}>
+                  <Error error={error} />
                   <fieldset disabled={loading} aria-busy={loading}>
                     <label htmlFor="title">
                       Title
@@ -84,10 +72,11 @@ class UpdateItem extends Component {
                         name="title"
                         placeholder="Title"
                         required
-                        defaultValue={data.Item.title}
+                        defaultValue={data.item.title}
                         onChange={this.handleChange}
                       />
                     </label>
+
                     <label htmlFor="price">
                       Price
                       <input
@@ -96,10 +85,11 @@ class UpdateItem extends Component {
                         name="price"
                         placeholder="Price"
                         required
-                        defaultValue={data.Item.price}
+                        defaultValue={data.item.price}
                         onChange={this.handleChange}
                       />
                     </label>
+
                     <label htmlFor="description">
                       Description
                       <textarea
@@ -107,7 +97,7 @@ class UpdateItem extends Component {
                         name="description"
                         placeholder="Enter A Description"
                         required
-                        defaultValue={data.Item.description}
+                        defaultValue={data.item.description}
                         onChange={this.handleChange}
                       />
                     </label>
@@ -116,14 +106,12 @@ class UpdateItem extends Component {
                 </Form>
               )}
             </Mutation>
-          )
+          );
         }}
       </Query>
     );
   }
 }
 
-UpdateItem.propTypes = {};
-
 export default UpdateItem;
-export {UPDATE_ITEM_MUTATION};
+export { UPDATE_ITEM_MUTATION };
