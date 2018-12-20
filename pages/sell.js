@@ -1,11 +1,14 @@
 import CreateItem from '../components/CreateItem';
+import PleaseSignin from '../components/PleaseSignin';
 
 
 const Sell = props => (
-    <div>
+  <div>
+    <PleaseSignin>
       <CreateItem/>
-    </div>
-  );
+    </PleaseSignin>
+  </div>
+);
 
 export default Sell;
 
