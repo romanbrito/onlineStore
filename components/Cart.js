@@ -11,9 +11,10 @@ import formatMoney from '../lib/formatMoney';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import CartItem from './CartItem';
 
+// get from apollo store not client
 const LOCAL_STATE_QUERY = gql`
     query {
-        cartOpen @client
+        cartOpen @client 
     }
 `;
 
