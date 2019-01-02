@@ -12,6 +12,12 @@ const fakeItem = {
 };
 
 describe('<Item/>', () => {
+  it('renders and matches the snapshot', () => {// console.log(wrapper.debug())
+    const wrapper = shallow(<ItemComponent item={fakeItem} />); // shallow mounted
+    expect(toJSON(wrapper)).toMatchSnapshot(); // serialize data with toJson
+    // if snapshot changes update in terminal with u (npm run test)
+  });
+
   it('renders the image properly', () => {
     const wrapper = shallow(<ItemComponent item={fakeItem} />);
     const img = wrapper.find('img'); // find img tag
