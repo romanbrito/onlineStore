@@ -60,7 +60,7 @@ class Signup extends Component {
                 this.setState({name: '', email: '', password: ''});
               }}>
               <fieldset disabled={loading} aria-busy={loading}>
-                <h2>Sign up for an acount</h2>
+                <h2>Sign up for an account</h2>
                 <ErrorMessage error={error}/>
                 <label htmlFor="email">
                   email
@@ -89,3 +89,4 @@ class Signup extends Component {
 }
 
 export default Signup;
+export {SIGNUP_MUTATION};
