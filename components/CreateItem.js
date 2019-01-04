@@ -53,11 +53,12 @@ class CreateItem extends Component {
       body: data
     });
     const file = await res.json();
+
     this.setState({
       image: file.secure_url,
-      largeImage: file.eager[0].secure_url
+      largeImage: file.eager && file.eager[0].secure_url
     })
-    // todo: when submiting check first if image is done uploading
+    // todo: when submitting check first if image is done uploading
   };
 
   render() {
