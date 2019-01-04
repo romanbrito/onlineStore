@@ -66,6 +66,7 @@ class CreateItem extends Component {
         {/*(mutationfunction, payload) => {}*/}
         {(createItem, {loading, error, called}) => (
           <Form
+            data-test="form"
             onSubmit={async event => {
               // stop form from submiting
               event.preventDefault();
